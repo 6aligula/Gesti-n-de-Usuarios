@@ -1,0 +1,47 @@
+services:
+  # Servicio de PHP con Apache
+  web:
+    build: .
+    container_name: php_app
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_HOST=mariadb
+      - DB_USER=root
+      - DB_PASSWORD=
+      - DB_NAME=di24
+    depends_on:
+      - mariadb
+    command: ["/bin/sh", "-c", "/usr/local/bin/wait-for.sh mariadb:3306 apache2-foreground"]
+
+
+  # Servicio de MariaDB
+  mariadb:
+    image: mariadb:10.4
+    container_name: mariadb_db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=di24
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./modelos/127_0_0_1.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # Servicio de phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_USER=root
+      - PMA_PASSWORD=
+    depends_on:
+      - mariadb
+
+volumes:
+  mariadb_data:
