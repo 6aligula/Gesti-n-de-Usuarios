@@ -63,5 +63,10 @@ function buscar(controlador, metodo, formulario, destino){
         })
 }
 
+$(document).ready(function() {
+    $(document).on('change', '#rol', function() {
+        actualizarBotonesRol();
+    });
+});
 
 

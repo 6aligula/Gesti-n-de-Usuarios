@@ -152,4 +152,27 @@ class M_Opciones {
         $parametros = [$posicionInicio, $nivel, $idPadre];
         return $this->DAO->ejecutarConsulta($query, $parametros);
     }
+
+    // Añadir a M_Opciones.php
+
+    public function asignarPermisoAdministrador($permisoId)
+    {
+        $rolAdmin = $this->DAO->consultaFila("SELECT id FROM roles WHERE nombre = 'Administrador'");
+        if ($rolAdmin) {
+            $sql = "INSERT IGNORE INTO permisosroles (id_Rol, id_Permiso) VALUES (?, ?)";
+            return $this->DAO->ejecutarConsulta($sql, [$rolAdmin['id'], $permisoId]);
+        }
+        return false;
+    }
+
+    // Modificar el método guardarPermiso para incluir la asignación automática
+    public function guardarPermiso($datos)
+    {
+        $sql = "INSERT INTO permisos (permiso, codigo_Permiso, id_Menu) VALUES (?, ?, ?)";
+        $resultado = $this->DAO->insertar($sql, [$datos['permiso'], $datos['codigo_Permiso'], $datos['id_Menu']]);
+        if ($resultado && !empty($datos['id'])) {
+            $this->asignarPermisoAdministrador($datos['id']);
+        }
+        return $resultado;
+    }
 }
