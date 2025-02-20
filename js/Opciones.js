@@ -315,4 +315,3 @@ function eliminarPermiso(permisoId) {
         })
         .catch(err => console.error('Error al eliminar el permiso:', err));
 }
-
