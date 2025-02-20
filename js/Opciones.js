@@ -47,7 +47,7 @@ function obtenerVista_EditarCrear(controlador, metodo, destinoId, id = '', param
         ...params
     });
 
-    console.log(`🔄 Obteniendo vista: ${controlador}, método: ${metodo}, ID: ${id}`);
+    console.log(`Obteniendo vista: ${controlador}, método: ${metodo}, ID: ${id}`);
 
     fetch("C_Frontal.php?" + parametros.toString(), { method: "GET" })
         .then(res => res.text())
@@ -62,10 +62,10 @@ function obtenerVista_EditarCrear(controlador, metodo, destinoId, id = '', param
                     destino.style.display = 'block'; // Mostrar la capa de edición
                 }, 100); // Espera 100ms para asegurar que se renderiza
             } else {
-                console.error(`⛔ No se encontró el destino #${destinoId}`);
+                console.error(` No se encontró el destino #${destinoId}`);
             }
         })
-        .catch(err => console.error('❌ Error al obtener la vista:', err));
+        .catch(err => console.error(' Error al obtener la vista:', err));
 }
 
 
@@ -315,5 +315,4 @@ function eliminarPermiso(permisoId) {
         })
         .catch(err => console.error('Error al eliminar el permiso:', err));
 }
-
 

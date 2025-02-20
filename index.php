@@ -97,8 +97,6 @@
     <div class="container-fluid" id="capaContenido">
     </div>
 
-    <!-- <script src="/2si24/ProyectoEjemploV2/js/Usuarios.js" defer></script>
-    <script src="/2si24/ProyectoEjemploV2/js/Opciones.js" defer></script> -->
     <script src="js/Opciones.js" defer></script>
     <script src="js/Usuarios.js" defer></script>
     <script src="app.js" defer></script>

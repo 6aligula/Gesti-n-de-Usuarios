@@ -17,6 +17,12 @@ class C_Opciones extends Controlador {
         $usuarioId = $datos['usuario'] ?? null;
         $rolId = $datos['rol'] ?? null;
         
+        // Si no se han filtrado ni usuario ni rol, se muestra la gestión de opciones
+        if (!$usuarioId && !$rolId) {
+            $this->mostrarOpciones();
+            return;
+        }
+        
         // Obtener todas las opciones junto con los permisos asociados
         $opciones = $this->modeloOpciones->obtenerOpcionesConPermisos();
         
@@ -33,7 +39,8 @@ class C_Opciones extends Controlador {
             'permisosAsignados' => $permisosAsignados,
             'modoAsignacion' => true // Este flag lo puedes usar en la vista para ocultar botones de CRUD
         ]);
-    }    
+    }
+     
     
     public function togglePermiso($datos) {
         $permisoId = $datos['permiso'] ?? null;
