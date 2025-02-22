@@ -1,14 +1,16 @@
 <?php
 define('HOST', getenv('DB_HOST') ?: '127.0.0.1');
-define('USER', getenv('DB_USER') ?: 'root'); 
+define('USER', getenv('DB_USER') ?: 'root');
 define('PASS', getenv('DB_PASSWORD') ?: '');
 define('DB', getenv('DB_NAME') ?: 'di24');
 
-class DAO {
-    private $conexion; 
+class DAO
+{
+    private $conexion;
     private $error;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conexion = new mysqli(HOST, USER, PASS, DB);
         if ($this->conexion->connect_errno) {
             die('Error de conexión: ' . $this->conexion->connect_error);
@@ -17,7 +19,8 @@ class DAO {
     }
 
     // Método para consultas SELECT con parámetros preparados
-    public function consultaFila($sql, $parametros = []) {
+    public function consultaFila($sql, $parametros = [])
+    {
         $stmt = $this->conexion->prepare($sql);
         if ($parametros) {
             $tipos = str_repeat('s', count($parametros)); // Suponiendo que todos los parámetros son strings
@@ -31,7 +34,8 @@ class DAO {
     }
 
     // Método para consultas INSERT con parámetros preparados
-    public function insertar($sql, $parametros = []) {
+    public function insertar($sql, $parametros = [])
+    {
         try {
             $stmt = $this->conexion->prepare($sql);
             if ($parametros) {
@@ -49,7 +53,8 @@ class DAO {
     }
 
     // Método para consultas UPDATE o DELETE con parámetros preparados
-    public function actualizar($sql, $parametros = []) {
+    public function actualizar($sql, $parametros = [])
+    {
         try {
             $stmt = $this->conexion->prepare($sql);
             if ($parametros) {
@@ -67,7 +72,8 @@ class DAO {
     }
 
     // Método para obtener múltiples filas (para consultas SELECT)
-    public function consultaMultiple($sql, $parametros = []) {
+    public function consultaMultiple($sql, $parametros = [])
+    {
         $stmt = $this->conexion->prepare($sql);
         if ($parametros) {
             $tipos = str_repeat('s', count($parametros));
@@ -84,25 +90,21 @@ class DAO {
     }
 
     // Método para cerrar la conexión
-    public function cerrarConexion() {
+    public function cerrarConexion()
+    {
         $this->conexion->close();
     }
 
-// Método para consultas INSERT, UPDATE o DELETE con parámetros preparados
-public function ejecutarConsulta($sql, $parametros = []) {
-    $stmt = $this->conexion->prepare($sql);
-    if ($parametros) {
-        $tipos = str_repeat('s', count($parametros));
-        $stmt->bind_param($tipos, ...$parametros);
+    // Método para consultas INSERT, UPDATE o DELETE con parámetros preparados
+    public function ejecutarConsulta($sql, $parametros = [])
+    {
+        $stmt = $this->conexion->prepare($sql);
+        if ($parametros) {
+            $tipos = str_repeat('s', count($parametros));
+            $stmt->bind_param($tipos, ...$parametros);
+        }
+        $resultado = $stmt->execute();
+        $stmt->close();
+        return $resultado;
     }
-    $resultado = $stmt->execute();
-    $stmt->close();
-    return $resultado;
 }
-
-}
-?>
-
-
-
-

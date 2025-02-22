@@ -44,6 +44,23 @@
                 <small id="rolesUsuario" class="form-text text-muted mt-1"></small>
             </div>
 
+            <div class="form-group col-md-4">
+                <label for="rol">Control de Roles:</label>
+                <div class="d-flex gap-2">
+                    <div class="role-actions">
+                        <!-- Botón Asignar Rol -->
+                        <button type="button" class="btn btn-primary" id="btnAsignarRol">
+                            Asignar
+                        </button>
+                        <!-- Botón Quitar Rol -->
+                        <button type="button" class="btn btn-danger" id="btnQuitarRol">
+                            Quitar
+                        </button>
+                    </div>
+                </div>
+                <small id="rolesUsuario" class="form-text text-muted mt-1"></small>
+            </div>
+
         </div>
 
         <div class="row mt-3">
@@ -55,3 +72,10 @@
     <div class="container-fluid" id="capaResultadoBusqueda"></div>
     <div class="container-fluid" id="capaEditarCrear"></div>
 </div>
+
+<style>
+    .assigned {
+        background-color: #0d6efd !important;
+        color: white !important;
+    }
+</style>

@@ -35,4 +35,40 @@ class C_Roles extends Controlador {
             'msj' => $resultado ? 'Rol eliminado correctamente' : 'Error al eliminar el rol'
         ]);
     }
+
+    public function asignarRol($datos = []) {
+        $resultado = $this->modelo->asignarRolAUsuario($datos['usuarioId'], $datos['rolId']);
+    
+        if ($resultado['success']) {
+            echo json_encode([
+                'correcto' => 'S',
+                'msj'      => 'Rol asignado correctamente'
+            ]);
+        } else {
+            if ($resultado['reason'] === 'EXISTE') {
+                echo json_encode([
+                    'correcto' => 'N',
+                    'msj'      => 'El usuario ya tiene este rol asignado.'
+                ]);
+            } else {
+                echo json_encode([
+                    'correcto' => 'N',
+                    'msj'      => 'Error al asignar rol (falló el INSERT).'
+                ]);
+            }
+        }
+    }    
+    
+    public function quitarRol($datos = []) {
+        $usuarioId = $datos['usuarioId'];
+        $rolId = $datos['rolId'];
+        // Aquí llamas al modelo para hacer el DELETE
+        $ok = $this->modelo->quitarRolAUsuario($usuarioId, $rolId);
+        
+        echo json_encode([
+            'correcto' => $ok ? 'S' : 'N',
+            'msj' => $ok ? 'Rol quitado correctamente' : 'Error al quitar rol'
+        ]);
+    }
+    
 }

@@ -95,7 +95,7 @@ class M_Usuarios extends Modelo {
         return $this->DAO->insertar($sql, [$nombre, $apellido_1, $apellido_2, $sexo, $fecha_Alta, $mail, $movil, $login, $hashedPassword, $activo]);
     }
 
-    public function actualizarUsuario($datos = array(), $idUsuario) {
+    public function actualizarUsuario($datos, $idUsuario) {
         $sql = "UPDATE usuarios 
                 SET nombre = ?, 
                     apellido_1 = ?, 
@@ -150,7 +150,44 @@ class M_Usuarios extends Modelo {
         }
     
         return $this->DAO->consultaFila($sql, $parametros);
-    }    
+    }
+
+    // public function obtenerUsuariosConRoles() {
+    //     $sql = "SELECT 
+    //                 u.id_Usuario,
+    //                 u.nombre,
+    //                 u.apellido_1,
+    //                 -- más campos si quieres
+    //                 GROUP_CONCAT(ru.id_Rol) AS roles_asignados
+    //             FROM usuarios u
+    //             LEFT JOIN rolesusuarios ru ON u.id_Usuario = ru.id_Usuario
+    //             GROUP BY u.id_Usuario";
+    
+    //     $resultado = $this->DAO->consultaMultiple($sql);
+    
+    //     // Convertir "1,3,5" a [1,3,5]
+    //     foreach ($resultado as &$usuario) {
+    //         if ($usuario['roles_asignados']) {
+    //             $usuario['roles'] = array_map('intval', explode(',', $usuario['roles_asignados']));
+    //         } else {
+    //             $usuario['roles'] = [];
+    //         }
+    //     }
+    
+    //     return $resultado;
+    // }
+    public function obtenerRolesPorUsuario($idUsuario) {
+        $sql = "SELECT id_Rol FROM rolesusuarios WHERE id_Usuario = ?";
+        $roles = $this->DAO->consultaMultiple($sql, [$idUsuario]);
+        
+        // Convertimos el resultado a un array de enteros
+        $rolesArray = array_map(function($row) {
+            return (int)$row['id_Rol'];
+        }, $roles);
+        
+        return $rolesArray;
+    }
+       
     
 }
 ?>

@@ -37,3 +37,6 @@ CREATE TABLE IF NOT EXISTS permisosroles (
     CONSTRAINT fk_permisosroles_permiso FOREIGN KEY (id_Permiso)
         REFERENCES permisos(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+ALTER TABLE rolesusuarios 
+    ADD PRIMARY KEY (id_Usuario, id_Rol);
